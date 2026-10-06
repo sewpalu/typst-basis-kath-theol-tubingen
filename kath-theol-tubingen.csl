@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" page-range-format="expanded" default-locale="de-DE" sort-separator=", " delimiter=" / " hanging-indent="true" et-al-min="4" et-al-use-first="1" demote-non-dropping-particle="never" entry-spacing="0">
+  <info>
+    <title>Reader Wissenschaftliches Arbeiten, Kath. Theol. Fakultät Tübingen</title>
+    <id></id>
+    <author>
+      <name>Patrick Sewell</name>
+      <email>patrick-luke.sewell@student.uni-tuebingen.de</email>
+    </author>
+    <category field="theology"/>
+  </info>
+
+  <macro name="contributors">
+    <choose>
+      <if type="report"> <!-- hier: Quellenband -->
+        <names variable="author">
+          <name/>
+          <et-al font-variant="normal"/>
+        </names>
+      </if>
+      <else>
+        <names variable="author" name-as-sort-order="all">
+          <name font-variant="small-caps" delimiter=" / "/>
+          <et-al font-variant="normal"/>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <macro name="contributors-short">
+    <choose>
+      <if type="report"> <!-- hier: Quellenband -->
+        <names variable="author">
+          <name/>
+          <et-al font-variant="normal"/>
+        </names>
+      </if>
+      <else>
+        <names variable="author">
+          <name form="short" font-variant="small-caps" delimiter=" / "/>
+          <et-al font-variant="normal"/>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title">
+    <text variable="title" text-case="title"/>
+  </macro>
+  <macro name="title-short">
+    <text variable="title-short" text-case="title"/>
+  </macro>
+  <macro name="collection-title">
+    <group prefix="(" suffix=")">
+      <text variable="collection-title" form="short" text-case="title"/>
+      <!--choose>
+        <if variable="volume">
+          <label variable="volume" form="short" prefix=", "/>
+          <text variable="volume" prefix=" "/>
+        </if>
+      </choose--> <!-- manual for now -->
+    </group>
+  </macro>
+  <macro name="container">
+    <choose>
+      <if type="chapter" match="any">
+        <group prefix="in: ​" delimiter=", ">
+          <names variable="editor">
+            <name font-variant="small-caps" delimiter=" / "/>
+            <et-al font-variant="normal"/>
+            <label form="short" prefix=" (" text-case="capitalize-first" suffix=")"/>
+          </names>
+          <text variable="container-title" text-case="title"/>
+        </group>
+      </if>
+      <else-if type="article-journal">
+        <group prefix="in: " delimiter=" ">
+          <text variable="container-title" text-case="title"/>
+          <group>
+            <text variable="volume"/>
+            <text variable="number" prefix="/"/>
+          </group>
+          <group prefix="(" suffix=")">
+            <text variable="edition" vertical-align="sup"/>
+            <date variable="issued">
+              <date-part name="year"/>
+            </date>
+          </group>
+        </group>
+      </else-if>
+      <else-if type="report"> <!-- hier: Quellenband -->
+        <group prefix="ed. von " delimiter=", ">
+          <names variable="editor">
+            <name font-variant="small-caps" delimiter=" / "/>
+            <et-al font-variant="normal"/>
+          </names>
+          <text variable="container-title" text-case="title"/>
+          <group delimiter=" ">
+            <!--label variable="volume" form="short"/-->
+            <text variable="volume"/>
+          </group>
+        </group>
+      </else-if>
+    </choose>
+  </macro>
+  <macro name="published">
+    <choose>
+      <if type="article-journal" match="none">
+        <group delimiter=" ">
+          <text variable="publisher-place" suffix=" "/>
+          <group>
+            <text variable="edition" vertical-align="sup"/>
+            <date variable="issued">
+              <date-part name="year"/>
+            </date>
+          </group>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  <macro name="pages">
+    <choose>
+      <if variable="page">
+        <text variable="page"/>
+      </if>
+    </choose>
+  </macro>
+  <macro name="citation">
+    <group delimiter=", ">
+      <text macro="contributors-short"/>
+      <text macro="title-short"/>
+    </group>
+  </macro>
+  <macro name="bibliography">
+    <group delimiter=", ">
+      <text macro="contributors"/>
+      <text macro="title"/>
+      <text macro="container"/> <!-- Sammelband / Artikel -->
+    </group>
+    <text macro="collection-title" prefix=" "/> <!-- Reihe -->
+    <group delimiter=", " prefix=", ">
+      <text macro="published"/>
+      <text macro="pages"/>
+    </group>
+  </macro>
+
+  <citation>
+    <layout suffix="." delimiter="; ">
+      <group delimiter=", ">
+        <choose>
+          <if position="first">
+            <group delimiter=" ">
+              <text macro="bibliography"/>
+              <text prefix="[im Folgenden: " macro="citation" suffix="]"/>
+            </group>
+          </if>
+          <else-if position="ibid">
+            <text term="ibid"/>
+          </else-if>
+          <else>
+            <text macro="citation"/>
+          </else>
+        </choose>
+        <text variable="locator"/>
+      </group>
+    </layout>
+  </citation>
+
+  <bibliography>
+    <sort>
+      <key macro="contributors"/>
+      <key macro="title"/>
+    </sort>
+    <layout suffix=".">
+      <text macro="bibliography"/>
+    </layout>
+  </bibliography>
+</style>
